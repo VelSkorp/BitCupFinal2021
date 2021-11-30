@@ -1,10 +1,14 @@
 ﻿using Aquality.Selenium.Browsers;
 using NUnit.Framework;
+using System.IO;
+using System;
 
 namespace Bit_Cup2021
 {
 	public class TestCase
 	{
+		private const string baseFilePath = @"resources\careers\Vlad_Kontsevich_";
+
 		[SetUp]
 		public void BeforeTest()
 		{
@@ -28,16 +32,23 @@ namespace Bit_Cup2021
 			epamCareersForm.SelectJobSkillsOption(TestData.Skills);
 			epamCareersForm.ClickJobSkillsSelector();
 			epamCareersForm.SelectIsJobRemote(TestData.Remote);
-
-			System.Diagnostics.Debugger.Launch();
 			epamCareersForm.FindJob();
 			var findJobResultsForm = Bit_CupTestSteps.CreateAndWaitForFormDisplayed<FindJobResultsForm>();
-			var recruitingPageForm = Bit_CupTestSteps.CreateAndWaitForFormDisplayed<RecruitingPageForm>();
-			for (int itemIndex = 0; itemIndex < findJobResultsForm.GetCountOfSearchResults(); itemIndex++)
-			{
-				findJobResultsForm.GoToSearchResultItem(itemIndex);
-				Assert.IsTrue(recruitingPageForm.IsWhatYouHaveBlockContains(TestData.NewFormJobKeyword), $"What You Have block is not contains {TestData.NewFormJobKeyword}");
+			var filepath = $"{AppDomain.CurrentDomain.BaseDirectory}{baseFilePath}{DateTime.Now:MM\\/dd\\/yyyy_HH:mm}.csv";
 
+			System.Diagnostics.Debugger.Launch();
+			using (StreamWriter writer = new StreamWriter(new FileStream(filepath, FileMode.Create, FileAccess.Write)))
+			{
+				for (int itemIndex = 0; itemIndex < findJobResultsForm.GetCountOfSearchResults(); itemIndex++)
+				{
+					findJobResultsForm.GoToSearchResultItem(itemIndex);
+					var recruitingPageForm = Bit_CupTestSteps.CreateAndWaitForFormDisplayed<RecruitingPageForm>();
+					Assert.IsTrue(recruitingPageForm.IsWhatYouHaveBlockContains(TestData.NewFormJobKeyword), $"What You Have block is not contains {TestData.NewFormJobKeyword}");
+					writer.WriteLine(recruitingPageForm.GetJobTitle());
+					writer.WriteLine(AqualityServices.Browser.CurrentUrl);
+					writer.WriteLine(recruitingPageForm.GetJobDescription());
+					writer.WriteLine(recruitingPageForm.GetJob());
+				}
 			}
 		}
 
