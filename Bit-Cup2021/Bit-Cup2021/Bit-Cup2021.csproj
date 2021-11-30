@@ -114,6 +114,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\RecruitingPageForm.cs" />
+    <Compile Include="Forms\FindJobResultsForm.cs" />
+    <Compile Include="Forms\EpamMainForm.cs" />
     <Compile Include="Forms\EpamCareersForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Bit-CupTestSteps.cs" />
