@@ -7,7 +7,7 @@ namespace Bit_Cup2021
 {
 	public class RecruitingPageForm : Form
 	{
-		private IList<ITextBox> WhatYouHaveBlockItems => ElementFactory.FindElements<ITextBox>(By.XPath("(//ul[@class='bullet-list'])[2]//li"), "What You Have block items");
+		private IList<ITextBox> WhatYouHaveBlockItems => ElementFactory.FindElements<ITextBox>(By.XPath("(//ul[@class='bullet-list'])[1]//li"), "What You Have block items");
 		private ILabel JobTitle => ElementFactory.GetLabel(By.XPath("//header[@class='recruiting-page__header']//h1"), "Job title label");
 		private ILabel JobDescription => ElementFactory.GetLabel(By.XPath("//div[@class='recruiting-page__top-description']"), "Job description label");
 		private ILabel Job => ElementFactory.GetLabel(By.XPath("//strong[@class='vacancy-page__id']"), "Job description label");
